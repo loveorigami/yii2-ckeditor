@@ -1,0 +1,35 @@
+{
+    "name": "loveorigami/yii2-ckeditor",
+    "keywords": ["yii", "wysiwyg", "editor", "CKEditor"],
+    "description": "Yii2 CKEditor a fork of mihaildev/yii2-ckeditor with bower packages",
+    "homepage": "https://github.com/devgroup-ru/yii2-ckeditor",
+    "license": "BSD-3-Clause",
+    "type": "yii2-extension",
+	"minimum-stability":"stable",
+    "authors": [
+        {
+            "name": "Mihail",
+            "email": "mihail.kucher@gmail.com",
+            "homepage": "https://github.com/MihailDev",
+            "role": "Developer"
+        },
+        {
+            "name": "Andrey Lukyanov",
+            "email": "loveorigami@mail.ru",
+            "homepage": "https://github.com/loveorigami/"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"mihaildev\\ckeditor\\": ""}
+    },
+    "require": {
+        "yiisoft/yii2": "*",
+        "bower-asset/ckeditor": "~4.5.0"
+    },
+	"extra": {
+		"asset-installer-paths": {
+			"npm-asset-library": "vendor/npm",
+			"bower-asset-library": "vendor/bower"
+		}
+	}
+}
