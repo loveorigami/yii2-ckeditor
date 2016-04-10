@@ -111,7 +111,7 @@ class CKEditor extends InputWidget{
             ['name' => 'links', 'groups' => ['links', 'insert']],
             ['name' => 'others'],
         ];
-
+        $options['extraPlugins'] = 'codemirror';
         if($this->_inline){
             $options['extraPlugins'] = 'sourcedialog';
             $options['removePlugins'] = 'sourcearea';
@@ -122,7 +122,11 @@ class CKEditor extends InputWidget{
 
     public function run()
     {
-        Assets::register($this->getView());
+        $view = $this->getView();
+        Assets::register($view);
+        $bundle = AssetsPlugins::register($view);
+
+
         $this->getView()->registerJs(<<<JS
 if (typeof mihaildev == "undefined" || !mihaildev) {
 	var mihaildev = {};
@@ -184,7 +188,9 @@ JS
             $this->getView()->registerJs($JavaScript, View::POS_END);
             $this->getView()->registerCss('#'.$this->containerOptions['id'].', #'.$this->containerOptions['id'].' .cke_textarea_inline{height: '.$this->editorOptions['height'].'px;}');
         }else{
-            $JavaScript = "CKEDITOR.replace(";
+
+            $JavaScript = "CKEDITOR.plugins.addExternal('codemirror', '$bundle->baseUrl/codemirror/');";
+            $JavaScript .= "CKEDITOR.replace(";
             $JavaScript .= Json::encode($this->options['id']);
             $JavaScript .= empty($this->editorOptions) ? '' : ', '.Json::encode($this->editorOptions);
             $JavaScript .= ");";
