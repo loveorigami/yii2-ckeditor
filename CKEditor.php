@@ -168,7 +168,7 @@ mihaildev.ckEditor = {
 	}
 };
 JS
-            , View::POS_READY, 'mihaildev-ckeditor'
+            , View::POS_END, 'mihaildev-ckeditor'
         );
 
         echo Html::beginTag('div', $this->containerOptions);
