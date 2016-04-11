@@ -58,7 +58,7 @@ class CKEditor extends InputWidget
             ['name' => 'links', 'groups' => ['links', 'insert']],
             ['name' => 'others', 'groups' => ['others', 'about']],
         ];
-        
+
         $options['extraPlugins'] = 'codemirror';
 
         $options['removeButtons'] = 'Subscript,Superscript,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe';
@@ -136,42 +136,8 @@ class CKEditor extends InputWidget
         Assets::register($view);
         $bundle = AssetsPlugins::register($view);
 
-
-        $this->getView()->registerJs(<<<JS
-if (typeof mihaildev == "undefined" || !mihaildev) {
-	var mihaildev = {};
-}
-
-mihaildev.ckEditor = {
-	registerOnChange: function(id){
-		CKEDITOR.instances[id] && CKEDITOR.instances[id].on('change', function () {
-			CKEDITOR.instances[id].updateElement();
-			jQuery('#' + id).trigger('change');
-			return false;
-		});
-	},
-	isRegisteredCsrf: false,
-	registerCsrf: function(){
-		if(this.isRegisteredCsrf)
-			return;
-
-		this.isRegisteredCsrf = true;
-
-		yii & jQuery(document).off('click', '.cke_dialog_tabs a:eq(2)').on('click', '.cke_dialog_tabs a:eq(2)', function () {
-			var form = jQuery('.cke_dialog_ui_input_file iframe').contents().find('form');
-			var csrfName = yii.getCsrfParam();
-			if (!form.find('input[name=' + csrfName + ']').length) {
-				var csrfTokenInput = jQuery('<input/>').attr({'type': 'hidden', 'name': csrfName}).val(yii.getCsrfToken());
-				form.append(csrfTokenInput);
-			}
-		});
-	}
-};
-JS
-            , View::POS_END, 'mihaildev-ckeditor'
-        );
-
         echo Html::beginTag('div', $this->containerOptions);
+
         if ($this->hasModel()) {
             echo Html::activeTextarea($this->model, $this->attribute, $this->options);
         } else {
@@ -179,10 +145,10 @@ JS
         }
 
         echo Html::endTag('div');
+
         $js = [
             'mihaildev.ckEditor.registerOnChange(' . Json::encode($this->options['id']) . ');'
         ];
-
         if (isset($this->editorOptions['filebrowserUploadUrl']))
             $js[] = "mihaildev.ckEditor.registerCsrf();";
 
@@ -203,7 +169,6 @@ JS
             $JavaScript .= Json::encode($this->options['id']);
             $JavaScript .= empty($this->editorOptions) ? '' : ', ' . Json::encode($this->editorOptions);
             $JavaScript .= ");";
-
             $this->getView()->registerJs($JavaScript, View::POS_END);
         }
     }
