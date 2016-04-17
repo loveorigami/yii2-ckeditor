@@ -1,27 +1,21 @@
-CKEditor Расширение для Yii 2
-===========================
+# Yii2 CKEditor
 
-CKEditor — свободный WYSIWYG-редактор, который может быть использован на веб-страницах.
+This is a fork [MihailDev/yii2-ckeditor](https://github.com/MihailDev/yii2-ckeditor)
 
-Данное расширение - форк пакета [mihaildev/yii2-ckeditor](https://github.com/MihailDev/yii2-ckeditor) с установкой ckeditor через bower.
+#### Features:
+- The ability to add custom plugins
+- Initialisation editor on event
+- Added custom plugins
 
-## Установка
+Plugins:
+- [Line Utilities](http://ckeditor.com/addon/lineutils)
+- [Widget](http://ckeditor.com/addon/widget)
+- [oembed](http://ckeditor.com/addon/oembed)
+- Custom video (MP4, WebM)
+- [Enhanced Image](http://ckeditor.com/addon/image2)
+- [autocorrect](http://ckeditor.com/addon/autocorrect)
+- [footnotes](http://ckeditor.com/addon/footnotes)
 
-Удобнее всего установить это расширение через [composer](http://getcomposer.org/download/).
-
-Либо запустить
-
-```
-php composer.phar require --prefer-dist mihaildev/yii2-ckeditor "*"
-```
-
-или добавить
-
-```json
-"mihaildev/yii2-ckeditor": "*"
-```
-
-в разделе `require` вашего composer.json файла.
 
 ## Использование
 

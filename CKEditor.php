@@ -13,12 +13,61 @@ use yii\web\JsExpression;
 use yii\web\View;
 use yii\helpers\Json;
 use yii\widgets\InputWidget;
+use Yii;
 
 class CKEditor extends InputWidget
 {
+    /**
+     * Editor options
+     * @var array
+     */
+
     public $editorOptions = [];
+    /**
+     * Container options
+     * @var array
+     */
     public $containerOptions = [];
+
+    /**
+     * Add extra plugins
+     * @var array
+     */
+    public $extraPlugins = [
+        'autosave',
+        'autocorrect',
+        'ckwebspeech',
+        'codemirror',
+        'oembed',
+        'templates',
+        'footnotes',
+    ];
+
+    private $corePlugins = [
+        'image2',
+        'dialog',
+        'autolink',
+        'widget',
+        'lineutils',
+        'justify',
+        'codesnippet',
+        'notification',
+        'liststyle',
+        'showblocks',
+        //'sourcedialog',
+    ];
+
+    /**
+     * Initialisation on event
+     * @var bool
+     */
+    public $initOnEvent = false;
+
     private $_inline = false;
+
+    const TYPE_STANDARD = 'standard';
+    const TYPE_INLINE = 'inline';
+
 
     public function init()
     {
@@ -59,7 +108,7 @@ class CKEditor extends InputWidget
             ['name' => 'others', 'groups' => ['others', 'about']],
         ];
 
-        $options['extraPlugins'] = 'codemirror';
+        $options['extraPlugins'] = $this->plugins();
 
         $options['removeButtons'] = 'Subscript,Superscript,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe';
         $options['removePlugins'] = 'elementspath';
@@ -88,7 +137,7 @@ class CKEditor extends InputWidget
 
         $options['removeButtons'] = 'Smiley,Iframe';
 
-        $options['extraPlugins'] = 'codemirror';
+        $options['extraPlugins'] = $this->plugins();
 
         if ($this->_inline) {
             $options['extraPlugins'] = 'sourcedialog';
@@ -107,7 +156,7 @@ class CKEditor extends InputWidget
             ['name' => 'clipboard', 'groups' => ['mode', 'undo', 'selection', 'clipboard', 'doctools']],
             ['name' => 'editing', 'groups' => ['find', 'spellchecker', 'tools', 'about']],
 
-            ['name' => 'paragraph', 'groups' => ['templates', 'list', 'indent', 'align']],
+            ['name' => 'paragraph', 'groups' => ['templates', 'align', 'list', 'indent', 'ckwebspeech']],
             ['name' => 'forms'],
 
             '/',
@@ -120,7 +169,8 @@ class CKEditor extends InputWidget
             ['name' => 'others'],
         ];
 
-        $options['extraPlugins'] = 'codemirror';
+        // autogrow,
+        $options['extraPlugins'] =  $this->plugins();
 
         if ($this->_inline) {
             $options['extraPlugins'] = 'sourcedialog';
@@ -132,9 +182,9 @@ class CKEditor extends InputWidget
 
     public function run()
     {
-        $view = $this->getView();
-        Assets::register($view);
-        $bundle = AssetsPlugins::register($view);
+        Assets::register($this->getView());
+
+        $this->addExtraPlugins();
 
         echo Html::beginTag('div', $this->containerOptions);
 
@@ -146,31 +196,77 @@ class CKEditor extends InputWidget
 
         echo Html::endTag('div');
 
-        $js = [
-            'mihaildev.ckEditor.registerOnChange(' . Json::encode($this->options['id']) . ');'
-        ];
-        if (isset($this->editorOptions['filebrowserUploadUrl']))
-            $js[] = "mihaildev.ckEditor.registerCsrf();";
-
-        if (!isset($this->editorOptions['on']['instanceReady']))
-            $this->editorOptions['on']['instanceReady'] = new JsExpression("function( ev ){" . implode(' ', $js) . "}");
-
-        $JavaScript = "CKEDITOR.plugins.addExternal('codemirror', '$bundle->baseUrl/codemirror/');";
 
         if ($this->_inline) {
-            $JavaScript .= "CKEDITOR.inline(";
-            $JavaScript .= Json::encode($this->options['id']);
-            $JavaScript .= empty($this->editorOptions) ? '' : ', ' . Json::encode($this->editorOptions);
-            $JavaScript .= ");";
-            $this->getView()->registerJs($JavaScript, View::POS_END);
-            $this->getView()->registerCss('#' . $this->containerOptions['id'] . ', #' . $this->containerOptions['id'] . ' .cke_textarea_inline{height: ' . $this->editorOptions['height'] . 'px;}');
+
+            $editorJs = $this->getCKeditor(self::TYPE_INLINE);
+
+            $this->getView()->registerCss('#' . $this->containerOptions['id'] . ', #' . $this->containerOptions['id']
+                . ' .cke_textarea_inline{height: ' . $this->editorOptions['height'] . 'px;}');
+            $this->getView()->registerJs($editorJs, View::POS_END);
+
+        } elseif ($this->initOnEvent) {
+
+            $editorJs = $this->getCKeditor(self::TYPE_STANDARD);
+            $js = 'jQuery("#' . $this->options['id'] . '").one("' . $this->initOnEvent . '", function () {' . $editorJs . '});';
+
+            $this->getView()->registerJs($js, View::POS_END);
+
         } else {
-            $JavaScript .= "CKEDITOR.replace(";
-            $JavaScript .= Json::encode($this->options['id']);
-            $JavaScript .= empty($this->editorOptions) ? '' : ', ' . Json::encode($this->editorOptions);
-            $JavaScript .= ");";
-            $this->getView()->registerJs($JavaScript, View::POS_END);
+            $editorJs = $this->getCKeditor(self::TYPE_STANDARD);
+            $this->getView()->registerJs($editorJs, View::POS_END);
         }
+    }
+
+    private function getCKeditor($type)
+    {
+        $editorJs = null;
+        switch ($type) {
+            case self::TYPE_STANDARD :
+                $editorJs = $this->typeStandard();
+                break;
+            case self::TYPE_INLINE :
+                $editorJs = $this->typeInline();
+                break;
+        }
+        return $editorJs;
+    }
+
+    private function typeInline()
+    {
+        $js = "CKEDITOR.inline(";
+        $js .= Json::encode($this->options['id']);
+        $js .= empty($this->editorOptions) ? '' : ', ' . Json::encode($this->editorOptions);
+        $js .= ");";
+        return $js;
+    }
+
+    private function typeStandard()
+    {
+        $js = "CKEDITOR.replace(";
+        $js .= Json::encode($this->options['id']);
+        $js .= empty($this->editorOptions) ? '' : ', ' . Json::encode($this->editorOptions);
+        $js .= ");";
+        return $js;
+    }
+
+    private function addExtraPlugins()
+    {
+        if (!is_array($this->extraPlugins) || !count($this->extraPlugins)) {
+            return false;
+        }
+        $bundle = AssetsPlugins::register($this->getView());
+
+        foreach ($this->extraPlugins as $name) {
+            $pluginJs = "CKEDITOR.plugins.addExternal('$name', '$bundle->baseUrl/$name/');";
+            $this->getView()->registerJs($pluginJs, View::POS_END);
+        }
+
+    }
+
+    private function plugins(){
+        $plugins = ArrayHelper::merge($this->corePlugins, $this->extraPlugins);
+        return implode(',', $plugins);
     }
 
 } 
