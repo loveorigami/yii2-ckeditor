@@ -65,6 +65,11 @@ class CKEditor extends InputWidget
 
     private $_inline = false;
 
+    /**
+     * @var string
+     */
+    public $preset = CKEditorPresets::FULL;
+
     const TYPE_STANDARD = 'standard';
     const TYPE_INLINE = 'inline';
 
@@ -79,12 +84,8 @@ class CKEditor extends InputWidget
         }
 
         if (array_key_exists('preset', $this->editorOptions)) {
-            if ($this->editorOptions['preset'] == 'basic') {
-                $this->presetBasic();
-            } elseif ($this->editorOptions['preset'] == 'standard') {
-                $this->presetStandard();
-            } elseif ($this->editorOptions['preset'] == 'full') {
-                $this->presetFull();
+            if ($this->editorOptions['preset']) {
+                $this->getPreset($this->editorOptions['preset']);
             }
             unset($this->editorOptions['preset']);
         }
@@ -96,25 +97,41 @@ class CKEditor extends InputWidget
             $this->containerOptions['id'] = $this->id . '_inline';
     }
 
-    private function presetBasic()
+    /**
+     * @param $preset
+     */
+    private function getPreset($preset)
     {
-        $options['height'] = 100;
-
-        $options['toolbarGroups'] = [
-            ['name' => 'undo'],
-            ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
-            ['name' => 'colors'],
-            ['name' => 'links', 'groups' => ['links', 'insert']],
-            ['name' => 'others', 'groups' => ['others', 'about']],
-        ];
-
+        $options = CKEditorPresets::getPresets($preset);
         $options['extraPlugins'] = $this->plugins();
 
-        $options['removeButtons'] = 'Subscript,Superscript,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe';
-        $options['removePlugins'] = 'elementspath';
-        $options['resize_enabled'] = false;
+        if ($this->_inline) {
+            $options['extraPlugins'] = 'sourcedialog';
+            $options['removePlugins'] = 'sourcearea';
+        }
+        $this->editorOptions = ArrayHelper::merge($options, $this->editorOptions);
+    }
 
 
+    private function presetBasic()
+    {
+        /*        $options['height'] = 100;
+
+                $options['toolbarGroups'] = [
+                    ['name' => 'undo'],
+                    ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
+                    ['name' => 'colors'],
+                    ['name' => 'links', 'groups' => ['links', 'insert']],
+                    ['name' => 'others', 'groups' => ['others', 'about']],
+                ];
+
+                $options['extraPlugins'] = $this->plugins();
+
+                $options['removeButtons'] = 'Subscript,Superscript,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe';
+                $options['removePlugins'] = 'elementspath';
+                $options['resize_enabled'] = false;*/
+
+        $options = CKEditorPresets::getPresets(CKEditorPresets::BASIC);
         $this->editorOptions = ArrayHelper::merge($options, $this->editorOptions);
     }
 
@@ -170,7 +187,7 @@ class CKEditor extends InputWidget
         ];
 
         // autogrow,
-        $options['extraPlugins'] =  $this->plugins();
+        $options['extraPlugins'] = $this->plugins();
 
         if ($this->_inline) {
             $options['extraPlugins'] = 'sourcedialog';
@@ -264,7 +281,8 @@ class CKEditor extends InputWidget
 
     }
 
-    private function plugins(){
+    private function plugins()
+    {
         $plugins = ArrayHelper::merge($this->corePlugins, $this->extraPlugins);
         return implode(',', $plugins);
     }

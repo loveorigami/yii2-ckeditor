@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
  */
 class CKEditorPresets extends Object
 {
+    const MINI = 'mini';
     const BASIC = 'basic';
     const STANDART = 'standart';
     const FULL = 'full';
@@ -50,6 +51,7 @@ class CKEditorPresets extends Object
     static public function allowPresets()
     {
         return [
+            self::MINI => 'Минимальный набор',
             self::BASIC => 'Базовый набор инструментов',
             self::STANDART => 'Стандартный набор инструментов',
             self::FULL => 'Полный набор инструментов',
@@ -57,44 +59,34 @@ class CKEditorPresets extends Object
         ];
     }
 
-    /**
-     * Add extra plugins
-     * @var array
-     */
-    public $extraPlugins = [
-        'autosave',
-        'autocorrect',
-        'codemirror',
-        'oembed',
-        'templates',
-        'footnotes',
-    ];
-
-    private $corePlugins = [
-        'image2',
-        'dialog',
-        'autolink',
-        'widget',
-        'lineutils',
-        'justify',
-        'codesnippet',
-        'notification',
-        'liststyle',
-        'showblocks',
-        //'sourcedialog',
-    ];
 
     /**
      * @var array Все возможные предустановки
      */
     static public $presets =
         [
+            self::MINI =>
+                [
+                    'height' => 100,
+                    'toolbarGroups' => [
+                        ['name' => 'document', 'groups' => ['mode', 'document', 'doctools']],
+                        ['name' => 'undo'],
+                        ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
+                        ['name' => 'colors'],
+                        ['name' => 'links', 'groups' => ['links']],
+                        ['name' => 'others', 'groups' => ['others', 'about']],
+                    ],
+                    'removeButtons' => 'Subscript,Superscript,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe',
+                    'removePlugins' => 'elementspath',
+                    'resize_enabled' => false
+                ],
 
             self::BASIC =>
                 [
                     'height' => 200,
-                    'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
+                    //'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
                     'toolbarGroups' => [
+                        ['name' => 'document', 'groups' => ['mode', 'document', 'doctools']],
                         ['name' => 'undo'],
                         ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
                         ['name' => 'colors'],
@@ -109,7 +101,7 @@ class CKEditorPresets extends Object
             self::STANDART =>
                 [
                     'height' => 300,
-                    'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
+                    //'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
                     'toolbarGroups' => [
                         ['name' => 'clipboard', 'groups' => ['mode', 'undo', 'selection', 'clipboard', 'doctools']],
                         ['name' => 'editing', 'groups' => ['tools', 'about']],
@@ -130,7 +122,7 @@ class CKEditorPresets extends Object
                     'height' => 400,
                     //'skin'              => "moonocolor",
                     'allowedContent' => true,
-                    'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
+                    //'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
                     //'extraPlugins'    	=> 'youtube',
                     //'indentClasses'     => ["ul-grey", "ul-red", "text-red", "ul-content-red", "circle", "style-none", "decimal", "paragraph-portfolio-top", "ul-portfolio-top", "url-portfolio-top", "text-grey"],
                     'toolbar' => [
@@ -175,7 +167,7 @@ class CKEditorPresets extends Object
                     'height' => 400,
                     //'skin'              => "moonocolor",
                     'allowedContent' => true,
-                    'extraPlugins' => 'ckwebspeech,youtube,doksoft_stat,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
+                    //'extraPlugins' => 'ckwebspeech,youtube,doksoft_stat,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
                     //'indentClasses'     => ["ul-grey", "ul-red", "text-red", "ul-content-red", "circle", "style-none", "decimal", "paragraph-portfolio-top", "ul-portfolio-top", "url-portfolio-top", "text-grey"],
                     'toolbar' => [
                         ['name' => 'document', 'groups' => ['mode', 'document', 'doctools'], 'items' => ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']],
@@ -193,9 +185,8 @@ class CKEditorPresets extends Object
                         ['name' => 'tools', 'items' => ['Maximize', 'ShowBlocks']],
                         ['name' => 'others', 'items' => ['-']],
                         ['name' => 'about', 'items' => ['About']],
-                        ['name' => 'extra', 'items' => ['Youtube', /*'pbckcode',*/
-                            'CodeSnippet']],
-                        ['name' => 'ckwebspeech', 'items' => ['webSpeechEnabled', 'webSpeechSettings']],
+                        //['name' => 'extra', 'items' => ['Youtube', /*'pbckcode',*/ 'CodeSnippet']],
+                        //['name' => 'ckwebspeech', 'items' => ['webSpeechEnabled', 'webSpeechSettings']],
                     ],
                     'toolbarGroups' => [
                         ['name' => 'document', 'groups' => ['mode', 'document', 'doctools']],
@@ -213,8 +204,8 @@ class CKEditorPresets extends Object
                         ['name' => 'tools'],
                         ['name' => 'others'],
                         ['name' => 'about'],
-                        ['name' => 'extra'],
-                        ['name' => 'ckwebspeech'],
+                        //['name' => 'extra'],
+                        //['name' => 'ckwebspeech'],
                     ],
                 ],
 
@@ -235,23 +226,4 @@ class CKEditorPresets extends Object
         return [];
     }
 
-    private function addExtraPlugins()
-    {
-        if (!is_array($this->extraPlugins) || !count($this->extraPlugins)) {
-            return false;
-        }
-        $bundle = AssetsPlugins::register($this->getView());
-
-        foreach ($this->extraPlugins as $name) {
-            $pluginJs = "CKEDITOR.plugins.addExternal('$name', '$bundle->baseUrl/$name/');";
-            $this->getView()->registerJs($pluginJs, View::POS_END);
-        }
-
-    }
-
-    private function plugins()
-    {
-        $plugins = ArrayHelper::merge($this->corePlugins, $this->extraPlugins);
-        return implode(',', $plugins);
-    }
 }
