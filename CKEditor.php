@@ -6,14 +6,11 @@
 
 namespace mihaildev\ckeditor;
 
-
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\web\JsExpression;
 use yii\web\View;
 use yii\helpers\Json;
 use yii\widgets\InputWidget;
-use Yii;
 
 class CKEditor extends InputWidget
 {
@@ -95,6 +92,7 @@ class CKEditor extends InputWidget
 
         if ($this->_inline && !isset($this->containerOptions['id']))
             $this->containerOptions['id'] = $this->id . '_inline';
+
     }
 
     /**
@@ -112,90 +110,6 @@ class CKEditor extends InputWidget
         $this->editorOptions = ArrayHelper::merge($options, $this->editorOptions);
     }
 
-
-    private function presetBasic()
-    {
-        /*        $options['height'] = 100;
-
-                $options['toolbarGroups'] = [
-                    ['name' => 'undo'],
-                    ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
-                    ['name' => 'colors'],
-                    ['name' => 'links', 'groups' => ['links', 'insert']],
-                    ['name' => 'others', 'groups' => ['others', 'about']],
-                ];
-
-                $options['extraPlugins'] = $this->plugins();
-
-                $options['removeButtons'] = 'Subscript,Superscript,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe';
-                $options['removePlugins'] = 'elementspath';
-                $options['resize_enabled'] = false;*/
-
-        $options = CKEditorPresets::getPresets(CKEditorPresets::BASIC);
-        $this->editorOptions = ArrayHelper::merge($options, $this->editorOptions);
-    }
-
-    private function presetStandard()
-    {
-        $options['height'] = 300;
-
-        $options['toolbarGroups'] = [
-            ['name' => 'clipboard', 'groups' => ['mode', 'undo', 'selection', 'clipboard', 'doctools']],
-            ['name' => 'editing', 'groups' => ['tools', 'about']],
-            '/',
-            ['name' => 'paragraph', 'groups' => ['templates', 'list', 'indent', 'align']],
-            ['name' => 'insert'],
-            '/',
-            ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
-            ['name' => 'colors'],
-            ['name' => 'links'],
-            ['name' => 'others'],
-        ];
-
-        $options['removeButtons'] = 'Smiley,Iframe';
-
-        $options['extraPlugins'] = $this->plugins();
-
-        if ($this->_inline) {
-            $options['extraPlugins'] = 'sourcedialog';
-            $options['removePlugins'] = 'sourcearea';
-        }
-
-        $this->editorOptions = ArrayHelper::merge($options, $this->editorOptions);
-    }
-
-
-    private function presetFull()
-    {
-        $options['height'] = 400;
-
-        $options['toolbarGroups'] = [
-            ['name' => 'clipboard', 'groups' => ['mode', 'undo', 'selection', 'clipboard', 'doctools']],
-            ['name' => 'editing', 'groups' => ['find', 'spellchecker', 'tools', 'about']],
-
-            ['name' => 'paragraph', 'groups' => ['templates', 'align', 'list', 'indent', 'ckwebspeech']],
-            ['name' => 'forms'],
-
-            '/',
-
-            ['name' => 'styles'],
-            ['name' => 'blocks'],
-
-            ['name' => 'basicstyles', 'groups' => ['basicstyles', 'colors', 'cleanup']],
-            ['name' => 'links', 'groups' => ['links', 'insert']],
-            ['name' => 'others'],
-        ];
-
-        // autogrow,
-        $options['extraPlugins'] = $this->plugins();
-
-        if ($this->_inline) {
-            $options['extraPlugins'] = 'sourcedialog';
-            $options['removePlugins'] = 'sourcearea';
-        }
-
-        $this->editorOptions = ArrayHelper::merge($options, $this->editorOptions);
-    }
 
     public function run()
     {
@@ -272,6 +186,7 @@ class CKEditor extends InputWidget
         if (!is_array($this->extraPlugins) || !count($this->extraPlugins)) {
             return false;
         }
+
         $bundle = AssetsPlugins::register($this->getView());
 
         foreach ($this->extraPlugins as $name) {
@@ -279,6 +194,7 @@ class CKEditor extends InputWidget
             $this->getView()->registerJs($pluginJs, View::POS_END);
         }
 
+        return true;
     }
 
     private function plugins()
