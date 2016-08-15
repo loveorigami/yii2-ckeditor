@@ -31,7 +31,7 @@ class CKEditor extends InputWidget
      * @var array
      */
     public $extraPlugins = [
-        'autosave',
+        //'autosave',
         'autocorrect',
         'ckwebspeech',
         'codemirror',
