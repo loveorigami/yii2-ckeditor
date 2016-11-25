@@ -24,7 +24,7 @@
     },
     "require": {
         "yiisoft/yii2": "*",
-        "bower-asset/ckeditor": "~4.5.0"
+        "bower-asset/ckeditor": "~4.6.0"
     },
 	"extra": {
 		"asset-installer-paths": {
