@@ -67,7 +67,6 @@ class CKEditorPresets extends Object
         [
             self::MINI =>
                 [
-                    'height' => 100,
                     'toolbarGroups' => [
                         ['name' => 'document', 'groups' => ['mode', 'document', 'doctools']],
                         ['name' => 'undo'],
@@ -83,7 +82,6 @@ class CKEditorPresets extends Object
 
             self::BASIC =>
                 [
-                    'height' => 200,
                     //'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
                     'toolbarGroups' => [
                         ['name' => 'document', 'groups' => ['mode', 'document', 'doctools']],
@@ -100,7 +98,6 @@ class CKEditorPresets extends Object
 
             self::STANDART =>
                 [
-                    'height' => 300,
                     //'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
                     'toolbarGroups' => [
                         ['name' => 'clipboard', 'groups' => ['mode', 'undo', 'selection', 'clipboard', 'doctools']],
@@ -119,7 +116,6 @@ class CKEditorPresets extends Object
 
             self::FULL =>
                 [
-                    'height' => 400,
                     'toolbarGroups' => [
                         ['name' => 'clipboard', 'groups' => ['mode', 'undo', 'selection', 'clipboard', 'doctools']],
                         ['name' => 'editing', 'groups' => ['find', 'spellchecker', 'tools', 'about']],
@@ -136,8 +132,6 @@ class CKEditorPresets extends Object
 
             self::EXTRA =>
                 [
-                    'height' => 400,
-                    //'skin'              => "moonocolor",
                     'allowedContent' => true,
                     //'extraPlugins' => 'ckwebspeech,youtube,doksoft_stat,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
                     //'indentClasses'     => ["ul-grey", "ul-red", "text-red", "ul-content-red", "circle", "style-none", "decimal", "paragraph-portfolio-top", "ul-portfolio-top", "url-portfolio-top", "text-grey"],

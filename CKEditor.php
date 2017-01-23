@@ -15,11 +15,23 @@ use yii\widgets\InputWidget;
 class CKEditor extends InputWidget
 {
     /**
+     * @var array
+     */
+    protected $configOptions = [
+        'entities' => false,
+        'resize_enabled' => false,
+        'autoGrow_minHeight' => 100,
+        'autoGrow_maxHeight' => 500,
+        'autoGrow_bottomSpace' => 50,
+        'autoGrow_onStartup' => false
+    ];
+
+    /**
      * Editor options
      * @var array
      */
-
     public $editorOptions = [];
+
     /**
      * Container options
      * @var array
@@ -33,17 +45,18 @@ class CKEditor extends InputWidget
     public $extraPlugins = [
         //'autosave',
         'autocorrect',
-        'ckwebspeech',
+        //'ckwebspeech',
         'codemirror',
         'oembed',
         'templates',
-        'footnotes',
+        //'footnotes',
     ];
 
     private $corePlugins = [
         'image2',
         'dialog',
         'autolink',
+        'autogrow',
         'widget',
         'lineutils',
         'justify',
@@ -51,7 +64,7 @@ class CKEditor extends InputWidget
         'notification',
         'liststyle',
         'showblocks',
-        //'sourcedialog',
+        'sourcedialog',
     ];
 
     /**
@@ -60,6 +73,9 @@ class CKEditor extends InputWidget
      */
     public $initOnEvent = false;
 
+    /**
+     * @var bool
+     */
     private $_inline = false;
 
     /**
@@ -74,6 +90,8 @@ class CKEditor extends InputWidget
     public function init()
     {
         parent::init();
+
+        $this->editorOptions = ArrayHelper::merge($this->configOptions,$this->editorOptions);
 
         if (array_key_exists('inline', $this->editorOptions)) {
             $this->_inline = $this->editorOptions['inline'];
@@ -174,11 +192,11 @@ class CKEditor extends InputWidget
 
     private function typeStandard()
     {
-        $js = "CKEDITOR.replace(";
-        $js .= Json::encode($this->options['id']);
-        $js .= empty($this->editorOptions) ? '' : ', ' . Json::encode($this->editorOptions);
-        $js .= ");";
-        return $js;
+        $js[] = "CKEDITOR.replace(";
+        $js[] = Json::encode($this->options['id']);
+        $js[] = empty($this->editorOptions) ? '' : ', ' . Json::encode($this->editorOptions);
+        $js[] = ");";
+        return implode("\r\n", $js);
     }
 
     private function addExtraPlugins()
