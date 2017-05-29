@@ -18,12 +18,15 @@ class CKEditor extends InputWidget
      * @var array
      */
     protected $configOptions = [
+        'allowedContent' => true,
+        'contentsCss' => '//cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css',
         'entities' => false,
         'resize_enabled' => false,
         'autoGrow_minHeight' => 100,
         'autoGrow_maxHeight' => 500,
         'autoGrow_bottomSpace' => 50,
-        'autoGrow_onStartup' => false
+        'autoGrow_onStartup' => false,
+        ''
     ];
 
     /**
@@ -78,6 +81,8 @@ class CKEditor extends InputWidget
      */
     private $_inline = false;
 
+    private $_once = false;
+
     /**
      * @var string
      */
@@ -91,7 +96,7 @@ class CKEditor extends InputWidget
     {
         parent::init();
 
-        $this->editorOptions = ArrayHelper::merge($this->configOptions,$this->editorOptions);
+        $this->editorOptions = ArrayHelper::merge($this->configOptions, $this->editorOptions);
 
         if (array_key_exists('inline', $this->editorOptions)) {
             $this->_inline = $this->editorOptions['inline'];
@@ -165,6 +170,18 @@ class CKEditor extends InputWidget
             $editorJs = $this->getCKeditor(self::TYPE_STANDARD);
             $this->getView()->registerJs($editorJs, View::POS_END);
         }
+
+        $this->registerOnce();
+    }
+
+    private function registerOnce()
+    {
+        if (!$this->_once) {
+            $editorJs[] = 'CKEDITOR.dtd.$removeEmpty.i = 0;';
+            $editorJs[] = 'CKEDITOR.dtd.$removeEmpty["span"] = false;';
+            $this->getView()->registerJs(implode("\r\n", $editorJs), View::POS_END);
+        }
+        $this->_once = true;
     }
 
     private function getCKeditor($type)
