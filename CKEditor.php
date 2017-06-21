@@ -56,19 +56,20 @@ class CKEditor extends InputWidget
     ];
 
     private $corePlugins = [
-        'image2',
-        'dialog',
-        'autolink',
         'autogrow',
-        'widget',
-        'lineutils',
-        'justify',
+        'autolink',
         'codesnippet',
-        'notification',
+        'colorbutton',
+        'dialog',
+        'font',
+        'image2',
+        'justify',
+        'lineutils',
         'liststyle',
+        'notification',
         'showblocks',
         //'sourcedialog',
-        'colorbutton'
+        'widget',
     ];
 
     /**
