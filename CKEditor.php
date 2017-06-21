@@ -67,7 +67,8 @@ class CKEditor extends InputWidget
         'notification',
         'liststyle',
         'showblocks',
-        'sourcedialog',
+        //'sourcedialog',
+        'colorbutton'
     ];
 
     /**

@@ -100,14 +100,14 @@ class CKEditorPresets extends Object
                 [
                     //'extraPlugins' => 'ckwebspeech,sourcedialog,codemirror,ajax,codesnippet,xml,widget,lineutils,dialog,dialogui',
                     'toolbarGroups' => [
-                        ['name' => 'clipboard', 'groups' => ['mode', 'undo', 'selection', 'clipboard', 'doctools']],
+                        ['name' => 'clipboard', 'groups' => ['mode', 'undo', 'clipboard', 'doctools']],
+                        ['name' => 'paragraph', 'groups' => ['templates', 'list', 'indent', 'align']],
                         ['name' => 'editing', 'groups' => ['tools', 'about']],
                         '/',
-                        ['name' => 'paragraph', 'groups' => ['templates', 'list', 'indent', 'align']],
-                        ['name' => 'insert'],
-                        '/',
+                        ['name' => 'styles'],
                         ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
                         ['name' => 'colors'],
+                        ['name' => 'insert'],
                         ['name' => 'links'],
                         ['name' => 'others'],
                     ],
