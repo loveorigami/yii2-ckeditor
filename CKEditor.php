@@ -26,7 +26,8 @@ class CKEditor extends InputWidget
         'autoGrow_maxHeight' => 500,
         'autoGrow_bottomSpace' => 50,
         'autoGrow_onStartup' => false,
-        ''
+        'startupOutlineBlocks' => true,
+        'scayt_autoStartup' => false,
     ];
 
     /**

@@ -2,6 +2,7 @@
 /**
  * Готовые предустановки
  */
+
 namespace mihaildev\ckeditor;
 
 use yii\base\Object;
