@@ -53,6 +53,7 @@ class CKEditor extends InputWidget
         'codemirror',
         'oembed',
         'templates',
+        'ckshortcodes',
         //'footnotes',
     ];
 
