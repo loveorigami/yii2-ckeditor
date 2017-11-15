@@ -62,7 +62,7 @@ CKEDITOR.dialog.add('btsgal', function (editor) {
             var type = this.getValueOf('tab1', 'type');
             var id = this.getValueOf('tab1', 'id');
             var pull = this.getValueOf('tab1', 'pull');
-            var align = pull ? ' pull="' + pull + '"': '';
+            var align = pull && type == 'img' ? ' pull="' + pull + '"' : '';
 
             editor.insertHtml('[' + type + ' id="' + id + '"' + align + ']');
         }
