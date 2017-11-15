@@ -54,6 +54,7 @@ class CKEditor extends InputWidget
         'oembed',
         'templates',
         'ckshortcodes',
+        'numericinput',
         //'footnotes',
     ];
 

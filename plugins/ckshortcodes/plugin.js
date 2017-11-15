@@ -1,30 +1,38 @@
 (function () {
     CKEDITOR.plugins.add('ckshortcodes', {
+        requires: 'dialog,numericinput',
         lang: 'ru,en',
         init: function (editor) {
             editor.addMenuGroup('bs_shortcodes');
 
             var items = {
+                btsgal: {
+                    command: 'btsgal',
+                    label: "Gallery",
+                    group: 'bs_shortcodes',
+                    icon: this.path + 'icons/btsjumbotron.png',
+                    order: 1
+                },
                 btsalerts: {
                     command: 'btsalerts',
                     label: "Alerts",
                     group: 'bs_shortcodes',
                     icon: this.path + 'icons/btsalerts.png',
-                    order: 1
+                    order: 10
                 },
                 btsrow: {
                     command: 'btsrow',
                     label: "Row",
                     group: 'bs_shortcodes',
                     icon: this.path + 'icons/btsrow.png',
-                    order: 2
+                    order: 12
                 },
                 btscol: {
                     command: 'btscol',
                     label: "Col",
                     group: 'bs_shortcodes',
                     icon: this.path + 'icons/btscol.png',
-                    order: 3
+                    order: 13
                 }
             };
 
@@ -49,10 +57,12 @@
                 }
             });
 
+            editor.addCommand('btsgal', new CKEDITOR.dialogCommand('btsgal', {}));
             editor.addCommand('btsalerts', new CKEDITOR.dialogCommand('btsalerts', {}));
             editor.addCommand('btscol', new CKEDITOR.dialogCommand('btscol', {}));
             editor.addCommand('btsrow', {exec: bsRow});
 
+            CKEDITOR.dialog.add('btsgal', this.path + 'dialogs/btsgal.js');
             CKEDITOR.dialog.add('btsalerts', this.path + 'dialogs/btsalerts.js');
             CKEDITOR.dialog.add('btscol', this.path + 'dialogs/btscol.js');
 
