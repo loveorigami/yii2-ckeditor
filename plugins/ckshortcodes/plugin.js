@@ -45,7 +45,7 @@
                     wysiwyg: 1
                 },
                 icon: this.path + 'icons/shortcode.png',
-                toolbar: 'insert,0',
+                toolbar: 'insert,55',
                 onMenu: function () {
                     var active = {};
                     // Make all items active.
