@@ -1,6 +1,6 @@
 (function () {
     CKEDITOR.plugins.add('ckshortcodes', {
-        requires: 'dialog,numericinput',
+        requires: 'widget,dialog,numericinput',
         lang: 'ru,en',
         init: function (editor) {
             editor.addMenuGroup('bs_shortcodes');
@@ -10,8 +10,22 @@
                     command: 'btsgal',
                     label: "Gallery",
                     group: 'bs_shortcodes',
-                    icon: this.path + 'icons/btsjumbotron.png',
+                    icon: this.path + 'icons/image.png',
                     order: 1
+                },
+                btsembed: {
+                    command: 'btsembed',
+                    label: "Embed",
+                    group: 'bs_shortcodes',
+                    icon: this.path + 'icons/oembed.png',
+                    order: 2
+                },
+                btstab: {
+                    command: 'btstab',
+                    label: "Tab & Accordion",
+                    group: 'bs_shortcodes',
+                    icon: this.path + 'icons/btstab.png',
+                    order: 3
                 },
                 btsalerts: {
                     command: 'btsalerts',
@@ -58,11 +72,15 @@
             });
 
             editor.addCommand('btsgal', new CKEDITOR.dialogCommand('btsgal', {}));
+            editor.addCommand('btstab', new CKEDITOR.dialogCommand('btstab', {}));
+            editor.addCommand('btsembed', new CKEDITOR.dialogCommand('btsembed', {}));
             editor.addCommand('btsalerts', new CKEDITOR.dialogCommand('btsalerts', {}));
             editor.addCommand('btscol', new CKEDITOR.dialogCommand('btscol', {}));
             editor.addCommand('btsrow', {exec: bsRow});
 
             CKEDITOR.dialog.add('btsgal', this.path + 'dialogs/btsgal.js');
+            CKEDITOR.dialog.add('btstab', this.path + 'dialogs/btstab.js');
+            CKEDITOR.dialog.add('btsembed', this.path + 'dialogs/btsembed.js');
             CKEDITOR.dialog.add('btsalerts', this.path + 'dialogs/btsalerts.js');
             CKEDITOR.dialog.add('btscol', this.path + 'dialogs/btscol.js');
 
