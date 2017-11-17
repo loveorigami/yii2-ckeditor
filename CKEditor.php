@@ -21,11 +21,11 @@ class CKEditor extends InputWidget
         'allowedContent' => true,
         'contentsCss' => '//cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css',
         'entities' => false,
-        'resize_enabled' => false,
+        'resize_enabled' => true,
         'autoGrow_minHeight' => 100,
         'autoGrow_maxHeight' => 500,
         'autoGrow_bottomSpace' => 50,
-        'autoGrow_onStartup' => false,
+        'autoGrow_onStartup' => true,
         'startupOutlineBlocks' => false,
         'scayt_autoStartup' => false,
     ];
