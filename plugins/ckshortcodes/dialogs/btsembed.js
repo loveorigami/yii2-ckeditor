@@ -94,7 +94,25 @@ CKEDITOR.dialog.add('btsembed', function (editor) {
             }
 
             if (type == 'youtube') {
-                var regExp = /youtube.com\/embed\/([A-Za-z0-9-]+)/,
+                /*
+                 https://stackoverflow.com/questions/3392993/php-regex-to-get-youtube-video-id
+                 Matches:
+                 youtube.com/v/vidid
+                 youtube.com/vi/vidid
+                 youtube.com/?v=vidid
+                 youtube.com/?vi=vidid
+                 youtube.com/watch?v=vidid
+                 youtube.com/watch?vi=vidid
+                 youtu.be/vidid
+                 youtube.com/embed/vidid
+                 http://youtube.com/v/vidid
+                 http://www.youtube.com/v/vidid
+                 https://www.youtube.com/v/vidid
+                 youtube.com/watch?v=vidid&wtv=wtv
+                 http://www.youtube.com/watch?dev=inprogress&v=vidid&feature=related
+                 https://m.youtube.com/watch?v=vidid
+                 */
+                var regExp = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/,
                     videoId = code.match(regExp);
 
                 if (videoId && videoId[1].length > 10) {
