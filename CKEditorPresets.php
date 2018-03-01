@@ -5,14 +5,14 @@
 
 namespace mihaildev\ckeditor;
 
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class CKEditorPresets
  * @package skeeks\yii2\ckeditor
  */
-class CKEditorPresets extends Object
+class CKEditorPresets extends BaseObject
 {
     const MINI = 'mini';
     const BASIC = 'basic';
