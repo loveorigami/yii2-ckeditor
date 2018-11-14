@@ -51,12 +51,12 @@ CKEDITOR.dialog.add('btscol', function (editor) {
             }
         ],
         onOk: function () {
-            var xclass = (this.getValueOf('tab1', 'disktop') != "") ? "col-lg-" + this.getValueOf('tab1', 'disktop') : "";
-            xclass += (this.getValueOf('tab1', 'tablite') != "") ? " col-md-" + this.getValueOf('tab1', 'tablite') : "";
-            xclass += (this.getValueOf('tab1', 'mobile') != "") ? " col-sm-" + this.getValueOf('tab1', 'mobile') : "";
-            var xc = xclass ? ' xclass="' + xclass + '"' : '';
+            var lg = (this.getValueOf('tab1', 'disktop') != "") ? "lg=" + this.getValueOf('tab1', 'disktop') : "lg=12";
+            var md = (this.getValueOf('tab1', 'tablite') != "") ? "md=" + this.getValueOf('tab1', 'tablite') : "md=12";
+            var sm = (this.getValueOf('tab1', 'mobile') != "") ? " sm=" + this.getValueOf('tab1', 'mobile') : "sm=12";
+            var xc = lg + ' ' + md + ' ' + sm;
             var text = editor.getSelection().getSelectedText().toString();
-            editor.insertHtml('[col' + xc + ']' + text + '[/col]');
+            editor.insertHtml('[col ' + xc + ']' + text + '[/col]');
         }
     };
 });
