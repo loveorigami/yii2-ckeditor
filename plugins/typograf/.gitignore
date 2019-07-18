@@ -1,0 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+/vendor/typograf/.eslintrc
+/vendor/typograf/.gitignore
+/vendor/typograf/.travis.yml
+/vendor/typograf/.jshintignore
+/vendor/typograf/.jshintrc
+/vendor/typograf/gulp/
+/vendor/typograf/src/
+/vendor/typograf/.yaspellerrc
+/vendor/typograf/.gitattributes
+/vendor/typograf/.eslintignore
+/vendor/typograf/docs/
+/vendor/typograf/test/
+/vendor/typograf/.jscsrc
+/vendor/typograf/benchmark/
+/vendor/typograf/build/

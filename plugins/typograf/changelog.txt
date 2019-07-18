@@ -1,0 +1,9 @@
+Changelog for ckeditor-plugin-typograf
+
+1.0.1-beta (03.11.2016)
+==============
+- Change process "addSafeTag"
+
+1.0.0-beta (01.11.2016)
+==============
+- Initial

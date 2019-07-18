@@ -56,6 +56,7 @@ class CKEditor extends InputWidget
         'ckshortcodes',
         'numericinput',
         //'footnotes',
+		'typograf'
     ];
 
     private $corePlugins = [
@@ -72,7 +73,7 @@ class CKEditor extends InputWidget
         'notification',
         'showblocks',
         //'sourcedialog',
-        'widget',
+        'widget'
     ];
 
     /**
